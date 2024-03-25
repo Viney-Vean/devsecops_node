@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  node:
+    build:
+      context: ..
+      dockerfile: /node.Dockerfile
+    image: fast_frontend
+    container_name: "node_container"
+    restart: always
+    command: [ "sh", "-c", "npm i && npm run build && npm run start" ]
+    working_dir: /app
+    env_file:
+      - ../requirements/node/.env.local
+    volumes:
+      - ../fe-tmpl-nuxt3-dynamic-form/assets:/app/assets
+      - ../fe-tmpl-nuxt3-dynamic-form/components:/app/components
+      - ../fe-tmpl-nuxt3-dynamic-form/layouts:/app/layouts
+      - ../fe-tmpl-nuxt3-dynamic-form/pages:/app/pages
+      - ../fe-tmpl-nuxt3-dynamic-form/plugins:/app/plugins
+      - ../fe-tmpl-nuxt3-dynamic-form/public:/app/public
+      - ../fe-tmpl-nuxt3-dynamic-form/server:/app/server
+      - ../fe-tmpl-nuxt3-dynamic-form/nuxt.config.ts:/app/nuxt.config.ts
+      - ../fe-tmpl-nuxt3-dynamic-form/app.config.ts:/app/app.config.ts
+      - ../fe-tmpl-nuxt3-dynamic-form/tsconfig.json:/app/tsconfig.json
+      - ../fe-tmpl-nuxt3-dynamic-form/package.json:/app/package.json
+      - ../fe-tmpl-nuxt3-dynamic-form/tailwind.config.js:/app/tailwind.config.js
+      - ../fe-tmpl-nuxt3-dynamic-form/middleware:/app/middleware
+      - ../fe-tmpl-nuxt3-dynamic-form/utils:/app/utils
+      - ../fe-tmpl-nuxt3-dynamic-form/composables:/app/composables
+      - ../fe-tmpl-nuxt3-dynamic-form/stores:/app/stores
+
+    networks:
+      - localhost-network
+
+  nginx:
+    build:
+      context: ..
+      dockerfile: /nginx.Dockerfile
+    image: nginx_frontend
+    container_name: nginx_frontend_container
+    ports:
+      # Port Node
+      - "3033:80"
+    restart: always
+    networks:
+      - localhost-network
+
+volumes:
+  nginx_data:
+
+networks:
+  localhost-network:
+    driver: bridge
