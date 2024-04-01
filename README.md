@@ -37,7 +37,7 @@ foundation for your applications.
 
 # Run with docker compose down
 
-docker compose -f docker_pro\docker-compose.yml down
+docker compose -f docker_frontend\docker-compose.yml down
 
 # Remove all containers
 
