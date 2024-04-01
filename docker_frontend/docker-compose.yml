@@ -4,7 +4,7 @@ services:
   node:
     build:
       context: ..
-      dockerfile: /node.Dockerfile
+      dockerfile: docker_frontend/node.Dockerfile
     image: fast_frontend
     container_name: "node_container"
     ports:
@@ -39,7 +39,7 @@ services:
   nginx:
     build:
       context: ..
-      dockerfile: /nginx.Dockerfile
+      dockerfile: docker_frontend/nginx.Dockerfile
     image: nginx_frontend
     container_name: nginx_frontend_container
     ports:
